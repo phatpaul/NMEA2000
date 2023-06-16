@@ -1,0 +1,63 @@
+name: Compile Examples on Arduino-ESP32-v1
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/compile-arduino-examples.yml"
+      - "Examples/**"
+      - "src/**"
+  push:
+    paths:
+      - ".github/workflows/compile-arduino-examples.yml"
+      - "Examples/**"
+      - "src/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    env:
+      # libraries to install for all boards
+      UNIVERSAL_LIBRARIES: |
+        # Install this library from the repository
+        - source-path: ./
+      # sketch paths to compile (recursive) for all boards
+      UNIVERSAL_SKETCH_PATHS: |
+        - Examples/TemperatureMonitor
+      SKETCHES_REPORTS_PATH: sketches-reports
+    
+    strategy:
+      fail-fast: false
+      
+      matrix:
+        fqbn:
+          - esp32:esp32:esp32
+          
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Compile examples
+        uses: arduino/compile-sketches@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fqbn: ${{ matrix.fqbn }}
+          libraries: |
+            ${{ env.UNIVERSAL_LIBRARIES }}
+            - source-url: https://github.com/phatpaul/NMEA2000_esp32.git
+          platforms: |
+            - name: "esp32:esp32"
+              source-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+              version: "1.0.6"
+          sketch-paths: |
+            ${{ env.UNIVERSAL_SKETCH_PATHS }}
+          cli-compile-flags: |
+            - --warnings="none"
+          enable-deltas-report: true
+          sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
+
+      - name: Save memory usage change report as artifact
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ env.SKETCHES_REPORTS_PATH }}
+          name: ${{ env.SKETCHES_REPORTS_PATH }}

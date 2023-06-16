@@ -1,4 +1,4 @@
-name: Compile Arduino Examples
+name: Compile Examples on Arduino-ESP32-v2
 on:
   workflow_dispatch:
   pull_request:
@@ -45,8 +45,9 @@ jobs:
             ${{ env.UNIVERSAL_LIBRARIES }}
             - source-url: https://github.com/phatpaul/NMEA2000_esp32.git
           platforms: |
-            - name: esp32:esp32
+            - name: "esp32:esp32"
               source-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+              version: "2.0.9"
           sketch-paths: |
             ${{ env.UNIVERSAL_SKETCH_PATHS }}
           cli-compile-flags: |
