@@ -1,14 +1,14 @@
-name: Compile Examples on Arduino-ESP32-v1
+name: Compiles on ESP32-Arduino-v1
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - ".github/workflows/compile-arduino-examples.yml"
+      - ".github/workflows/compile-examples-arduino-esp32-v1.yml"
       - "Examples/**"
       - "src/**"
   push:
     paths:
-      - ".github/workflows/compile-arduino-examples.yml"
+      - ".github/workflows/compile-examples-arduino-esp32-v1.yml"
       - "Examples/**"
       - "src/**"
 
