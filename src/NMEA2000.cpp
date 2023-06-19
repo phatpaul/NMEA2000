@@ -29,7 +29,8 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <stdlib.h>
 
-#define DebugStream Serial
+// #define DebugStream Serial
+#define DebugStream (*ForwardStream) // outputs debug messages to the same stream
 
 // #define NMEA2000_FRAME_ERROR_DEBUG
 // #define NMEA2000_FRAME_IN_DEBUG
