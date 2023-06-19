@@ -104,6 +104,7 @@ class N2kStream {
     * \return size_t 
     */
    size_t print(int val, uint8_t radix = 10);
+   #define HEX (16)
 
    /***********************************************************************//**
     * \brief Print string and newline to stream.
@@ -121,6 +122,13 @@ class N2kStream {
     * \return size_t 
     */
    size_t println(int val, uint8_t radix = 10);
+
+   /***********************************************************************//**
+    * \brief Print newline to stream.
+    * 
+    * \return size_t 
+    */
+   size_t println();
 };
 #endif
 
