@@ -47,10 +47,10 @@ jobs:
     - run:  ls -lisa build/docs/html
 
     # push the generated output to gh-pages branch
+    # This step is allowed to fail on forks or non-master branches without signaling workflow failure
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
-      # Only publish from the master branch
-      if: github.ref == 'refs/heads/master'
+      continue-on-error: ${{ github.repository != 'ttlappalainen/NMEA2000' || github.ref != 'refs/heads/master' }}
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build/docs/html
